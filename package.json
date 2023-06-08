@@ -4,8 +4,8 @@
   "description": "Projeto Crud com Qualidade",
   "main": "index.js",
   "scripts": {
-    "start:crud": "npx ts-node ./core/crud.ts",
-    "dev:crud": "nodemon --ext ts,tsx --exec 'npm run start:crud'",
+    "start": "npx ts-node ./core/crud.ts",
+    "dev": "nodemon --ext ts,tsx --exec 'npm run start'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,9 +13,11 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.2.5",
+    "@types/uuid": "^9.0.1",
     "nodemon": "^2.0.22"
   },
   "dependencies": {
-    "typescript": "^5.1.3"
+    "typescript": "^5.1.3",
+    "uuid": "^9.0.0"
   }
 }
