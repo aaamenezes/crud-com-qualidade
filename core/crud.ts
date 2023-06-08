@@ -3,8 +3,10 @@ import { v4 as uuid } from 'uuid';
 
 const DB_FILE_PATH = './core/db.json';
 
+type UUID = string;
+
 interface Todo {
-  id: string;
+  id: UUID;
   date: string;
   content: string;
   done: boolean;
@@ -31,13 +33,6 @@ function create(content: string): Todo {
   return todo;
 }
 
-function updateContentById(id: string, content: string): Todo {
-  return update(
-    id,
-    { content }
-  );
-}
-
 function read(): Array<Todo> {
   const dbString = fs.readFileSync(DB_FILE_PATH, 'utf-8');
   const db = JSON.parse(dbString || '{}');
@@ -51,7 +46,7 @@ function read(): Array<Todo> {
 //   const newTodo = Object.assign(todoToUpdate, partialTodo);
 // }
 
-function update(id: string, partialTodo: Partial<Todo>): Todo {
+function update(id: UUID, partialTodo: Partial<Todo>): Todo {
   let updatedTodo;
   const todos = read();
 
@@ -68,16 +63,42 @@ function update(id: string, partialTodo: Partial<Todo>): Todo {
   return updatedTodo;
 }
 
+function updateContentById(id: UUID, content: string): Todo {
+  return update(
+    id,
+    { content }
+  );
+}
+
+function deleteById(id: UUID) {
+  const todos = read();
+  const updatedTodos = todos.filter(todo => todo.id !== id);
+  fs.writeFileSync(DB_FILE_PATH, JSON.stringify(
+    { todos: updatedTodos }, null, 2
+  ));
+}
+
 function clearDB() {
   fs.writeFileSync(DB_FILE_PATH, '');
 }
 
+/**
+ * Execução:
+ */
+
 clearDB();
-create('Primeiro TODO');
-const todo = create('Segundo TODO');
-// console.log(read());
-// update(todo.id, {
-//   content: 'CARAI',
-//   done: true
-// });
-updateContentById(todo.id, 'Atualizadasso!')
+const firstTodo = create('Primeiro TODO');
+console.log("firstTodo:", firstTodo);
+const secondTodo = create('Segundo TODO');
+const thirdTodo = create('Terceiro TODO');
+deleteById(secondTodo.id);
+updateContentById(thirdTodo.id, 'Terceiro atualizadasso!')
+
+const todos = read();
+console.log("todos:", todos);
+console.log('todos.length:', todos.length);
+console.log('\n');
+console.log('\n');
+console.log('================================================================');
+console.log('\n');
+console.log('\n');
