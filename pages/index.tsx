@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { GlobalStyles } from '@ui/theme/GlobalStyles';
+import { todoController } from '@ui/controller/todo';
 
 const bg = 'https://mariosouto.com/cursos/crudcomqualidade/bg';
 
+interface HomeTodo {
+  id: string;
+  content: string;
+
+}
+
 export default function Home() {
+  const [todos, setTodos] = useState<HomeTodo[]>([]);
+
+  useEffect(() => {
+    todoController.get().then(todos => {
+      setTodos(todos);
+    });
+  }, []);
+
   return (
     <main>
       <GlobalStyles themeName="red" />
@@ -37,36 +52,34 @@ export default function Home() {
           </thead>
 
           <tbody>
-            <tr>
-              <td>
-                <input type="checkbox" />
-              </td>
-              <td>d4f26</td>
-              <td>
-                Conteúdo de uma TODO Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Eaque vero facilis obcaecati, autem aliquid
-                eius! Consequatur eaque doloribus laudantium soluta optio odit,
-                provident, ab voluptates doloremque voluptas recusandae
-                aspernatur aperiam.
-              </td>
-              <td align="right">
-                <button data-type="delete">Apagar</button>
-              </td>
-            </tr>
+            {todos.map(currentTodo => {
+              return (
+                <tr key={currentTodo.id}>
+                  <td>
+                    <input type="checkbox" />
+                  </td>
+                  <td>{currentTodo.id.substring(0, 4)}</td>
+                  <td>{currentTodo.content}</td>
+                  <td align="right">
+                    <button data-type="delete">Apagar</button>
+                  </td>
+                </tr>
+              );
+            })}
 
-            <tr>
+            {/* <tr>
               <td colSpan={4} align="center" style={{ textAlign: 'center' }}>
                 Carregando...
               </td>
-            </tr>
+            </tr> */}
 
-            <tr>
+            {/* <tr>
               <td colSpan={4} align="center">
                 Nenhum item encontrado
               </td>
-            </tr>
+            </tr> */}
 
-            <tr>
+            {/* <tr>
               <td colSpan={4} align="center" style={{ textAlign: 'center' }}>
                 <button data-type="load-more">
                   Carregar mais{' '}
@@ -81,7 +94,7 @@ export default function Home() {
                   </span>
                 </button>
               </td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
       </section>

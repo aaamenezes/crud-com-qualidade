@@ -2,7 +2,7 @@
 import fs from 'fs';
 import { v4 as uuid } from 'uuid';
 
-console.log('\n ========================================================== \n');
+// console.log('\n ========================================================== \n');
 
 const DB_FILE_PATH = './core/db.json';
 
@@ -30,7 +30,7 @@ function create(content: string): Todo {
   return todo;
 }
 
-function read(): Array<Todo> {
+export function read(): Array<Todo> {
   const dbString = fs.readFileSync(DB_FILE_PATH, 'utf-8');
   const db = JSON.parse(dbString || '{}');
 
@@ -82,6 +82,6 @@ updateContentById(thirdTodo.id, 'Terceiro atualizadasso!');
 updateContentById(firstTodo.id, 'Primeiro atualizadasso! 2');
 
 const todos = read();
-console.log('todos:', todos);
-console.log('todos.length:', todos.length);
-console.log('\n ========================================================== \n');
+// console.log('todos:', todos);
+// console.log('todos.length:', todos.length);
+// console.log('\n ========================================================== \n');
