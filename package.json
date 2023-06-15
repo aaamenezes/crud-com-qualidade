@@ -4,20 +4,38 @@
   "description": "Projeto Crud com Qualidade",
   "main": "index.js",
   "scripts": {
-    "start": "npx ts-node ./core/crud.ts",
-    "dev": "nodemon --ext ts,tsx --exec 'npm run start'",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint './**/*.{jsx,js,tsx,ts}'",
+    "lint:fix": "npm run lint -- --fix",
+    "start:crud": "npx ts-node ./core/crud.ts",
+    "dev:crud": "nodemon --ext ts,tsx --exec 'npm run start:crud'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^20.2.5",
+    "@types/node": "^18.15.5",
+    "@types/react": "18.0.29",
     "@types/uuid": "^9.0.1",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.21",
+    "eslint": "^8.36.0",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.32.2",
+    "prettier": "^2.8.7"
   },
   "dependencies": {
-    "typescript": "^5.1.3",
+    "next": "^13.2.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.0.2",
     "uuid": "^9.0.0"
   }
 }
