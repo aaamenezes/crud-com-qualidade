@@ -7,14 +7,14 @@ const bg = 'https://mariosouto.com/cursos/crudcomqualidade/bg';
 interface HomeTodo {
   id: string;
   content: string;
-
 }
 
 export default function Home() {
   const [todos, setTodos] = useState<HomeTodo[]>([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    todoController.get().then(todos => {
+    todoController.get({ page }).then(({ todos }) => {
       setTodos(todos);
     });
   }, []);
@@ -79,10 +79,13 @@ export default function Home() {
               </td>
             </tr> */}
 
-            {/* <tr>
+            <tr>
               <td colSpan={4} align="center" style={{ textAlign: 'center' }}>
-                <button data-type="load-more">
-                  Carregar mais{' '}
+                <button
+                  data-type="load-more"
+                  onClick={() => setPage(cur => cur + 1)}
+                >
+                  Página {page} - Carregar mais{' '}
                   <span
                     style={{
                       display: 'inline-block',
@@ -94,7 +97,7 @@ export default function Home() {
                   </span>
                 </button>
               </td>
-            </tr> */}
+            </tr>
           </tbody>
         </table>
       </section>
