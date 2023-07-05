@@ -13,21 +13,18 @@ function get({
   page,
   limit
 }: TodoRepositoryGetParams): Promise<TodoRepositoryGetOutput> {
-  return fetch('/api/todos').then(async response => {
-    const todosString = await response.text();
-    const todosFromServer = JSON.parse(todosString).todos;
-    const ALL_TODOS = todosFromServer;
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-    const paginatedTodos = ALL_TODOS.slice(startIndex, endIndex);
-    const totalPages = Math.ceil(ALL_TODOS.length / limit);
+  return fetch(`/api/todos?page=${page}&limit=${limit}`).then(
+    async ServerResponse => {
+      const todosString = await ServerResponse.text();
+      const parsedResponse = parseTodosFromServer(JSON.parse(todosString));
 
-    return {
-      todos: paginatedTodos,
-      total: ALL_TODOS.length,
-      pages: totalPages
-    };
-  });
+      return {
+        todos: parsedResponse.todos,
+        total: parsedResponse.total,
+        pages: parsedResponse.pages
+      };
+    }
+  );
 }
 
 export const todoRepository = {
@@ -40,4 +37,49 @@ interface Todo {
   content: string;
   date: Date;
   done: boolean;
+}
+
+function parseTodosFromServer(responseBody: unknown): {
+  total: number;
+  pages: number;
+  todos: Array<Todo>;
+} {
+  if (
+    responseBody !== null &&
+    typeof responseBody === 'object' &&
+    'todos' in responseBody &&
+    'total' in responseBody &&
+    'pages' in responseBody &&
+    Array.isArray(responseBody.todos)
+  ) {
+    return {
+      total: Number(responseBody.total),
+      pages: Number(responseBody.pages),
+      todos: responseBody.todos.map((todo: unknown) => {
+        if (todo === null && typeof todo !== 'object') {
+          throw new Error('invalid todo from API');
+        }
+
+        const { id, content, done, date } = todo as {
+          id: string;
+          content: string;
+          done: string;
+          date: string;
+        };
+
+        return {
+          id,
+          content,
+          done: String(done).toLocaleLowerCase() === 'true',
+          date: new Date(date)
+        };
+      })
+    };
+  }
+
+  return {
+    todos: [],
+    total: 0,
+    pages: 1
+  };
 }
