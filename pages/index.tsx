@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { GlobalStyles } from '@ui/theme/GlobalStyles';
 import { todoController } from '@ui/controller/todo';
 
@@ -10,17 +10,23 @@ interface HomeTodo {
 }
 
 export default function Home() {
-  const [initialLoadComplete, setInitialLoadComplete] = useState(false);
+  const initialLoadComplete = useRef(false);
   const [todos, setTodos] = useState<HomeTodo[]>([]);
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const homeTodos = todoController.filterTodosByContent<HomeTodo>(
+    searchTerm,
+    todos
+  );
+
   const hasMorePages = totalPages > page;
-  const hasNoTodos = todos.length === 0 && !isLoading;
+  const hasNoTodos = homeTodos.length === 0 && !isLoading;
 
   useEffect(() => {
-    setInitialLoadComplete(true);
-    if (!initialLoadComplete) {
+    if (!initialLoadComplete.current) {
       todoController
         .get({ page })
         .then(({ todos, pages }) => {
@@ -29,6 +35,7 @@ export default function Home() {
         })
         .finally(() => {
           setIsLoading(false);
+          initialLoadComplete.current = true;
         });
     }
   }, [page]);
@@ -50,7 +57,14 @@ export default function Home() {
 
       <section>
         <form>
-          <input type="text" placeholder="Filtrar lista atual, ex: Dentista" />
+          <input
+            type="text"
+            placeholder="Filtrar lista atual, ex: Dentista"
+            value={searchTerm}
+            onChange={event => {
+              setSearchTerm(event.target.value);
+            }}
+          />
         </form>
 
         <table border={1}>
@@ -66,7 +80,7 @@ export default function Home() {
           </thead>
 
           <tbody>
-            {todos.map(currentTodo => {
+            {homeTodos.map(currentTodo => {
               return (
                 <tr key={currentTodo.id}>
                   <td>
