@@ -2,7 +2,7 @@
 import fs from 'fs';
 import { v4 as uuid } from 'uuid';
 
-// console.log('\n ========================================================== \n');
+// console.log('\n ======================================================= \n');
 
 const DB_FILE_PATH = './core/db.json';
 
@@ -15,7 +15,7 @@ interface Todo {
   done: boolean;
 }
 
-function create(content: string): Todo {
+export function create(content: string): Todo {
   const todo: Todo = {
     id: uuid(),
     date: new Date().toISOString(),
@@ -89,7 +89,7 @@ create('Décimo primeiro TODO');
 // updateContentById(thirdTodo.id, 'Terceiro atualizadasso!');
 // updateContentById(firstTodo.id, 'Primeiro atualizadasso! 2');
 
-const todos = read();
+// const todos = read();
 // console.log('todos:', todos);
 // console.log('todos.length:', todos.length);
-// console.log('\n ========================================================== \n');
+// console.log('\n ======================================================= \n');
