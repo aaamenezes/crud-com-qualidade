@@ -37,7 +37,7 @@ export function read(): Array<Todo> {
   return db.todos || [];
 }
 
-function update(id: UUID, partialTodo: Partial<Todo>): Todo {
+export function update(id: UUID, partialTodo: Partial<Todo>): Todo {
   const todos = read();
   const todoToUpdate = todos.find(currentTodo => currentTodo.id === id);
 
