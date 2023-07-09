@@ -55,9 +55,15 @@ function toggleDone({
   todoRepository.toggleDone(id).then(updateTodoOnScreen).catch(onError);
 }
 
+async function deleteById(id: string): Promise<void> {
+  const todoId = id;
+  await todoRepository.deleteById(todoId);
+}
+
 export const todoController = {
   get,
   filterTodosByContent,
   create,
-  toggleDone
+  toggleDone,
+  deleteById
 };

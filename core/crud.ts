@@ -52,11 +52,11 @@ export function update(id: UUID, partialTodo: Partial<Todo>): Todo {
   return updatedTodo;
 }
 
-function updateContentById(id: UUID, content: string): Todo {
-  return update(id, { content });
-}
+// function updateContentById(id: UUID, content: string): Todo {
+//   return update(id, { content });
+// }
 
-function deleteById(id: UUID) {
+export function deleteById(id: UUID) {
   const todos = read();
   const updatedTodos = todos.filter(todo => todo.id !== id);
   fs.writeFileSync(
@@ -74,9 +74,9 @@ function clearDB() {
  */
 
 clearDB();
-const firstTodo = create('Primeiro TODO');
-const secondTodo = create('Segundo TODO');
-const thirdTodo = create('Terceiro TODO');
+create('Primeiro TODO');
+create('Segundo TODO');
+create('Terceiro TODO');
 create('Quarto TODO');
 create('Quinto TODO');
 create('Sexto TODO');
