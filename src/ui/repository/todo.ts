@@ -12,7 +12,7 @@ interface TodoRepositoryGetOutput {
   pages: number;
 }
 
-function get({
+async function get({
   page,
   limit
 }: TodoRepositoryGetParams): Promise<TodoRepositoryGetOutput> {
@@ -55,9 +55,31 @@ async function createByContent(content: string): Promise<Todo> {
   throw new Error('Failed to create TODO');
 }
 
+async function toggleDone(id: string): Promise<Todo> {
+  const response = await fetch(`/api/todos/${id}/toggle-done`, {
+    method: 'PUT'
+  });
+
+  if (!response.ok) throw new Error('Server error');
+
+  const serverResponse = await response.json();
+  const serverResponseSchema = schema.object({
+    todo: TodoSchema
+  });
+  const serverResponseParsed = serverResponseSchema.safeParse(serverResponse);
+
+  if (!serverResponseParsed.success) {
+    throw new Error(`Failed to update TODO with id ${id}`);
+  }
+
+  const updatedTodo = serverResponseParsed.data.todo;
+  return updatedTodo;
+}
+
 export const todoRepository = {
   get,
-  createByContent
+  createByContent,
+  toggleDone
 };
 
 // Model/schema

@@ -7,6 +7,7 @@ const bg = 'https://mariosouto.com/cursos/crudcomqualidade/bg';
 interface HomeTodo {
   id: string;
   content: string;
+  done: boolean;
 }
 
 export default function Home() {
@@ -104,14 +105,36 @@ export default function Home() {
           </thead>
 
           <tbody>
-            {homeTodos.map(currentTodo => {
+            {homeTodos.map(todo => {
               return (
-                <tr key={currentTodo.id}>
+                <tr key={todo.id}>
                   <td>
-                    <input type="checkbox" />
+                    <input
+                      type="checkbox"
+                      checked={todo.done}
+                      onChange={() => {
+                        todoController.toggleDone({
+                          id: todo.id,
+                          updateTodoOnScreen() {
+                            setTodos(currentTodos => {
+                              return currentTodos.map(currentTodo => {
+                                return currentTodo.id === todo.id
+                                  ? { ...currentTodo, done: !currentTodo.done }
+                                  : currentTodo;
+                              });
+                            });
+                          },
+                          onError() {
+                            alert('Fail to update TODO');
+                            alert(`Todo content: ${todo.content}`);
+                            alert(`Todo ID: ${todo.id}`);
+                          }
+                        });
+                      }}
+                    />
                   </td>
-                  <td>{currentTodo.id.substring(0, 4)}</td>
-                  <td>{currentTodo.content}</td>
+                  <td>{todo.id.substring(0, 4)}</td>
+                  <td>{todo.done ? <s>{todo.content}</s> : todo.content}</td>
                   <td align="right">
                     <button data-type="delete">Apagar</button>
                   </td>
