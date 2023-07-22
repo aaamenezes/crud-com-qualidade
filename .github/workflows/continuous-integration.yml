@@ -9,5 +9,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      ## Common CI steps
+      - uses: actions/checkout@v3
       - name: 'Lint'
         run: "echo 'vamo gurizadaaaaaaa' && npm run lint"
