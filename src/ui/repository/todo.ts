@@ -39,20 +39,18 @@ async function createByContent(content: string): Promise<Todo> {
     body: JSON.stringify({ content })
   });
 
-  if (response.ok) {
-    const serverResponse = await response.json();
-    const serverResponseSchema = schema.object({
-      todo: TodoSchema
-    });
-    const serverResponseParsed = serverResponseSchema.safeParse(serverResponse);
+  if (!response.ok) throw new Error('Failed to create TODO');
 
-    if (!serverResponseParsed.success) throw new Error('Failed to create TODO');
+  const serverResponse = await response.json();
+  const serverResponseSchema = schema.object({
+    todo: TodoSchema
+  });
+  const serverResponseParsed = serverResponseSchema.safeParse(serverResponse);
 
-    const todo = serverResponseParsed.data.todo;
-    return todo;
-  }
+  if (!serverResponseParsed.success) throw new Error('Failed to create TODO');
 
-  throw new Error('Failed to create TODO');
+  const todo = serverResponseParsed.data.todo;
+  return todo;
 }
 
 async function toggleDone(id: string): Promise<Todo> {

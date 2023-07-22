@@ -54,14 +54,14 @@ export default function Home() {
             event.preventDefault();
             todoController.create({
               content: newTodoContent,
-              onError() {
-                alert('falta content');
-              },
               onSuccess(todo: HomeTodo) {
                 setTodos(currentTodos => {
                   return [todo, ...currentTodos];
                 });
                 setNewTodoContent('');
+              },
+              onError() {
+                alert('Precisa de conteúdo para criar a TODO');
               }
             });
           }}
