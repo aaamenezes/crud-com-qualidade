@@ -26,8 +26,13 @@ async function get(req: NextApiRequest, res: NextApiResponse) {
     return;
   }
 
-  const output = todoRepository.get({ page, limit });
-  res.status(200).json(output);
+  const output = await todoRepository.get({ page, limit });
+
+  res.status(200).json({
+    total: output.total,
+    pages: output.pages,
+    todos: output.todos
+  });
 }
 
 const TodoCreteBodySchema = schema.object({
@@ -43,11 +48,19 @@ async function create(req: NextApiRequest, res: NextApiResponse) {
     });
   }
 
-  const createdTodo = await todoRepository.createByContent(body.data.content);
+  try {
+    const createdTodo = await todoRepository.createByContent(body.data.content);
 
-  res.status(201).json({
-    todo: createdTodo
-  });
+    res.status(201).json({
+      todo: createdTodo
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: {
+        message: 'Failed to create todo'
+      }
+    });
+  }
 }
 
 async function toggleDone(req: NextApiRequest, res: NextApiResponse) {
