@@ -71,9 +71,7 @@ export default function Home() {
             name="add-todo"
             placeholder="Correr, Estudar..."
             value={newTodoContent}
-            onChange={event => {
-              setNewTodoContent(event.target.value);
-            }}
+            onChange={event => setNewTodoContent(event.target.value)}
           />
           <button type="submit" aria-label="Adicionar novo item">
             +
