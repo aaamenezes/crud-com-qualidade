@@ -23,6 +23,8 @@ describe('/ - todo feed', () => {
     }).as('createTodo');
 
     cy.visit(BASE_URL);
+    // cy.task('log', '👌👌👌👌👌👌👌👌👌👌👌👌👌👌');
+    // cy.task('log', BASE_URL);
     cy.get('input[name="add-todo"]').type(testMessage);
     cy.get('[aria-label="Adicionar novo item"]').click();
     cy.get('table > tbody').contains(testMessage);
