@@ -9,7 +9,15 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      ## Common CI steps
+      # Common CI steps
       - uses: actions/checkout@v3
+      - name: 'Start degug'
+        run: |
+          echo 'vamo gurizadaaaaaaa'
+          echo 'Começando o CI Crud com Qualidade'
+          echo 'Vamo lá!'
+      - name: 'Install dependencies'
+        # run: 'npm ci'
+        run: 'npm install'
       - name: 'Lint'
-        run: "echo 'vamo gurizadaaaaaaa' && npm run lint"
+        run: 'npm run lint'
