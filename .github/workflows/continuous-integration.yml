@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Lint'
-        run: "echo 'vamo gurizadaaaaaaa'"
+        run: "echo 'vamo gurizadaaaaaaa' && npm run lint"
