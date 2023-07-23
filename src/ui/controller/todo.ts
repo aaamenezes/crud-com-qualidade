@@ -32,13 +32,12 @@ interface TodoControllerCreateParams {
 
 function create({ content, onError, onSuccess }: TodoControllerCreateParams) {
   const parsedParams = schema.string().nonempty().safeParse(content);
-
   if (!parsedParams.success) return onError();
 
   todoRepository
     .createByContent(parsedParams.data)
     .then(newTodo => onSuccess(newTodo))
-    .catch(() => onError());
+    .catch(onError);
 }
 
 interface TodoControllerToggleDoneParams {

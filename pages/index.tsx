@@ -54,14 +54,14 @@ export default function Home() {
             event.preventDefault();
             todoController.create({
               content: newTodoContent,
-              onError() {
-                alert('falta content');
-              },
               onSuccess(todo: HomeTodo) {
                 setTodos(currentTodos => {
                   return [todo, ...currentTodos];
                 });
                 setNewTodoContent('');
+              },
+              onError() {
+                alert('Precisa de conteúdo para criar a TODO');
               }
             });
           }}
@@ -71,9 +71,7 @@ export default function Home() {
             name="add-todo"
             placeholder="Correr, Estudar..."
             value={newTodoContent}
-            onChange={event => {
-              setNewTodoContent(event.target.value);
-            }}
+            onChange={event => setNewTodoContent(event.target.value)}
           />
           <button type="submit" aria-label="Adicionar novo item">
             +

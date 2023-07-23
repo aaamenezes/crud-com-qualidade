@@ -1,0 +1,32 @@
+name: '[CD] Continuous Delivery'
+
+# Sempre que tiver commit ou um PR for aberto
+# on:
+#   push:
+#     branches: [main]
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+env:
+  VERCEL_ORG_ID: aqzWxaUaJMI4DACQLynlnhEk
+  VERCEL_PROJECT_ID: prj_zIHFpzj0azsJ9zOLbKIozvN45czN
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Common CI steps
+      - uses: actions/checkout@v3
+      #############
+      - name: 'Start degug'
+        run: |
+          echo 'vamo gurizadaaaaaaa'
+          echo 'Começando o CD Crud com Qualidade'
+          echo 'Vamo lá!'
+      - name: 'Install dependencies'
+        # run: 'npm ci'
+        run: 'npm install'
+      - name: 'Deploy'
+        run: 'npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }}'

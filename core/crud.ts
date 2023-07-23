@@ -65,26 +65,26 @@ export function deleteById(id: UUID) {
   );
 }
 
-function clearDB() {
-  fs.writeFileSync(DB_FILE_PATH, '');
-}
+// function clearDB() {
+//   fs.writeFileSync(DB_FILE_PATH, '');
+// }
 
 /**
  * Execução:
  */
 
-clearDB();
-create('Primeiro TODO');
-create('Segundo TODO');
-create('Terceiro TODO');
-create('Quarto TODO');
-create('Quinto TODO');
-create('Sexto TODO');
-create('Sétimo TODO');
-create('Oitavo TODO');
-create('Nono TODO');
-create('Décimo TODO');
-create('Décimo primeiro TODO');
+// clearDB();
+// create('Primeiro TODO');
+// create('Segundo TODO');
+// create('Terceiro TODO');
+// create('Quarto TODO');
+// create('Quinto TODO');
+// create('Sexto TODO');
+// create('Sétimo TODO');
+// create('Oitavo TODO');
+// create('Nono TODO');
+// create('Décimo TODO');
+// create('Décimo primeiro TODO');
 // deleteById(secondTodo.id);
 // updateContentById(thirdTodo.id, 'Terceiro atualizadasso!');
 // updateContentById(firstTodo.id, 'Primeiro atualizadasso! 2');

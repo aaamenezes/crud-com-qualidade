@@ -1,9 +1,19 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { todoController } from '@server/controller/todo';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'GET') return todoController.get(req, res);
-  if (req.method === 'POST') return todoController.create(req, res);
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method === 'GET') {
+    await todoController.get(req, res);
+    return;
+  }
+
+  if (req.method === 'POST') {
+    await todoController.create(req, res);
+    return;
+  }
 
   res.status(405).json({
     error: {

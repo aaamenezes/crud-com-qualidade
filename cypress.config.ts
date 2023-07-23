@@ -1,10 +1,17 @@
+/* eslint-disable no-console */
+
 import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
-    video: true,
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
+    video: false,
+    setupNodeEvents(on /* , config */) {
+      on('task', {
+        log(message) {
+          console.log(message);
+          return null;
+        }
+      });
     }
   }
 });
